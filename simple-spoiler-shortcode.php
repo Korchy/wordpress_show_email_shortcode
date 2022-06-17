@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name:	Show Email Shortcode
+Plugin Name:	Simple Spoiler Shortcode
 Plugin URI:		
 Version:		1.0.0
 Author:			Nikita Akimov
@@ -14,28 +14,28 @@ if(!defined('ABSPATH')) {
 	exit;
 }
 
-function show_email_shortcode($atts) {
+function simple_spoiler_shortcode($atts) {
 	// content to show on the shortcode place
-	// array(2) { ["text"] => string(10) "Show Email" ["email"] => string(13) "mail@mail.org"}
+	// array(2) { ["title"] => string(10) "Show Email" ["text"] => string(13) "mail@mail.org"}
 	$content = '<span>';	// base containder to prevent external formatting
-		$shortcode_id = 'show_email_' . rand();
-		$email = preg_split('#[.@]#', $atts['email']);	// split email on 3 parts
+		$shortcode_id = 'simple_spoiler_' . rand();
+		$text = strrev(base64_encode($atts['text']));	// encode text to base64 and reverse to hide from bots and web-spiders
 		$content .= '<span id = "' . $shortcode_id . '">';	// container to wrap onClick function
 			$content .= '<a href="#"';
 			$content .= 'onclick = "javascript: 
 				document.getElementById(\'' . $shortcode_id . '\').innerHTML = 
-					\'' . $email[0] . '\' + \'@\' + \'' . $email[1] . '\' + \'.\' + \'' . $email[2] . '\'; 
+					decodeURIComponent(escape(atob(\'' . $text . '\'.split(\'\').reverse().join(\'\'))));
 				return false;"';
-			$content .= '>' . $atts['text'] . '</a>';
+			$content .= '>' . $atts['title'] . '</a>';
 		$content .= '</span>';	// onClick container
 	$content .= '</span>';	// base container
     return $content;
 }
 
-function show_email_shortcode_on_register() {
+function simple_spoiler_shortcode_on_register() {
 	// register new shortcode
-	add_shortcode('show_email', 'show_email_shortcode');
+	add_shortcode('simple_spoiler', 'simple_spoiler_shortcode');
 }
-add_action('init', 'show_email_shortcode_on_register');
+add_action('init', 'simple_spoiler_shortcode_on_register');
 
 ?>
