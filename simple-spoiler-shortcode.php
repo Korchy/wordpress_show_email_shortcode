@@ -6,7 +6,7 @@ Version:		1.0.0
 Author:			Nikita Akimov
 Author URI:		https://progr.interplanety.org/
 License:		GPL-3.0-or-later
-Description:	Show specified Email by clicking on text
+Description:	Show hiden text by clicking on visible text
 */
 
 //	not run directly
